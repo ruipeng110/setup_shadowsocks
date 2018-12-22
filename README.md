@@ -15,7 +15,7 @@
 建议使用 PayPal 进行充值，没有 PayPal 可以去网上搜一下教程，申请一个。PayPal 在支付国际业务的时候还是很方便的。
 
 ### VPS 选择
-充值完成之后，就可以去选择自己需要的 VPS 了。
+充值完成之后，就可以去选择自己需要的 VPS 了，如果选择了centos，服务器实例默认是开启了tcp防火墙的。
 
 ![](https://user-gold-cdn.xitu.io/2017/5/2/a20fc7942b6fa8bb72d556a5f76c1592)
 
@@ -66,6 +66,8 @@ $ ssh $Username@$IPAddress
 root@vultr:~#
 ```
 说明已经成功访问到 VPS 了。下面就可以在 VPS 里搭建 Docker 服务，然后制作 `shadowsocks` 的镜像了。
+centos关闭防火墙命令：systemctl stop firewalld.service 
+
 
 ### 添加用户
 > 此节是针对 Linux 小白，高手请绕行。
