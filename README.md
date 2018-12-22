@@ -1,15 +1,15 @@
-之前写过一篇文章[如何在 VPS 上搭建梯子](https://juejin.im/post/58d8d3cd61ff4b006cd5d83a)，那篇文章里是如果在[搬瓦工](https://bandwagonhost.com)的 VPS 搭建 `shadowsocks` 的服务进行翻墙。当初选择搬瓦工的原因是因为 VPS 很便宜，一年差不多 120RMB 的价格就可以获得一台拥有独立 IP 的 VPS 了。但搬瓦工的缺点是使用的 OpenVZ 的架构，所以无法升级 Linux 内核和使用 [Docker](https://www.docker.com) 等很多的限制。使用 Docker 虚拟机，可以自定义 `shadowsocks` 的镜像，这样现在迁移 VPS 或者给 VPS 重装系统的时候就不需要再重新搭建 `shadowsocks` 了，只需要将之前准备好的 `shadowsocks` docker 镜像下载下来并启动就可以了。本篇文章就是来教大家如何自己构建一个 `shadowsocks` 的 docker 镜像并启动和使用对 `shadowsocks` 进行加速，使大家可以通畅的浏览 `youtube` 上的 1080P 视频。
+之前写过一篇文章[如何在 VPS 上搭建梯子](https://juejin.im/post/58d8d3cd61ff4b006cd5d83a)，那篇文章里是如果在[搬瓦工](https://bandwagonhost.com)的 VPS 搭建 `shadowsocks` 的服务进行翻墙。当初选择搬瓦工的原因是因为 VPS 很便宜，一年差不多 240RMB 的价格就可以获得一台拥有独立 IP 的 VPS 了。但搬瓦工的缺点是使用的 OpenVZ 的架构，所以无法升级 Linux 内核和使用 [Docker](https://www.docker.com) 等很多的限制。使用 Docker 虚拟机，可以自定义 `shadowsocks` 的镜像，这样现在迁移 VPS 或者给 VPS 重装系统的时候就不需要再重新搭建 `shadowsocks` 了，只需要将之前准备好的 `shadowsocks` docker 镜像下载下来并启动就可以了。本篇文章就是来教大家如何自己构建一个 `shadowsocks` 的 docker 镜像并启动和使用对 `shadowsocks` 进行加速，使大家可以通畅的浏览 `youtube` 上的 1080P 视频。
 
 ## Vultr VPS 提供商
 这次我们弃用了搬瓦工，理由正如上面提到的，搬瓦工使用的是 OpenVZ 的架构，而 OpenVZ 架构是不支持 Docker 和后面提到的 `TCP-BBR` 即 TCP 拥塞控制技术的。
 
-经过比较之后，选择了 [Vultr](https://www.vultr.com/?ref=7656065) 这个 VPS 提供商。原因是 [Vultr](https://www.vultr.com/?ref=7656065) 提供基于 KVM 虚拟的 VPS，可以支持 Docker 和 TCP-BBR 技术，并且其现在有每个月只需 `2.5 美元`的选择，对于搭建梯子和个人博客搭建等日常学习来说已经绰绰有余了。
+经过比较之后，选择了 [Vultr](https://www.vultr.com/?ref=7721467) 这个 VPS 提供商。原因是 [Vultr](https://www.vultr.com/?ref=7721467) 提供基于 KVM 虚拟的 VPS，可以支持 Docker 和 TCP-BBR 技术，并且其现在有每个月只需 `2.5 美元`的选择，对于搭建梯子和个人博客搭建等日常学习来说已经绰绰有余了。
 
 ### 充值
-注册了 [Vultr](https://www.vultr.com/?ref=7656065) 帐号后，必须先充值才可以进行 VPS 的选择，现在优惠活动是充值 5 美元赠送 5 美元。像之前赠送 20 美元的活动已经取消了。
+注册了 [Vultr](https://www.vultr.com/?ref=7721467) 帐号后，必须先充值才可以进行 VPS 的选择。
 
-
-![](https://user-gold-cdn.xitu.io/2017/5/2/224fbf1fd314e3ee08543554e0b86fdc)
+![](https://raw.githubusercontent.com/ruipeng110/image/master/vpn/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181222225244.png)
+![](https://raw.githubusercontent.com/ruipeng110/image/master/vpn/%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_20181222225121.png)
 
 
 建议使用 PayPal 进行充值，没有 PayPal 可以去网上搜一下教程，申请一个。PayPal 在支付国际业务的时候还是很方便的。
