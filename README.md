@@ -431,7 +431,7 @@ $ sudo docker build -t shadowsocks .
 Docker 就会根据当前目录下的 Dockerfile 来生成以 `shadowsocks` 命名的镜像了。有了镜像，不管你的 VPS 是什么系统，都可以通过以下命令来开启 `shadowsocks` 服务
 
 ```bash
-$ sudo docker run --name ss -d -p 1989:1989 -p 1989:1989/udp shadowsocks -s 0.0.0.0 -p 1989 -k zhgqthomas.com -m aes-256-cfb
+$ sudo docker run -e PASSWORD=<password> -p<server-port>:8388 -p<server-port>:8388/udp -d --restart=always shadowsocks/shadowsocks-libev
 ```
 将 `$password` 替换为自定义的密码，然后 `ss` 服务就运行起来了。
 
